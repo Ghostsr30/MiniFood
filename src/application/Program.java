@@ -1,9 +1,9 @@
 package application;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
 
 import entities.Order;
@@ -17,8 +17,9 @@ public class Program {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
 
-		List<Product> list = new ArrayList<>();
-
+		Map<Integer, Order> historico = new HashMap<>();
+		int proximoIdPedido = 1;
+        Map<String, Product> produtos = new HashMap<>();
 		Order ord = new Order();
 		int option = 0;
 		while (option != 5) {
@@ -46,6 +47,8 @@ public class Program {
 			}
 
 			if (option == 1) {
+				
+
 				int n = 0;
 				try {
 					System.out.print("Quantos produtos ira ser adicionado? ");
@@ -65,7 +68,7 @@ public class Program {
 						double price = sc.nextDouble();
 
 						Product pr = new Product(name, price);
-						list.add(pr);
+						produtos.put(pr.getName().toLowerCase(), pr);
 					} 
 					catch (InputMismatchException e) {
 						System.out.println("Entrada inválida");
@@ -74,58 +77,66 @@ public class Program {
 				}
 			} else if (option == 2) {
 				System.out.println("Produtos: ");
-				for (Product pr : list) {
+				for (Product pr : produtos.values()) {
 					System.out.println(pr);
 
 				}
 				System.out.println();
 
 			} else if (option == 3) {
-				char resp = 's';
 
-				while (resp == 's') {
 
 					System.out.println("Produtos disponiveis: ");
-					for (Product pr : list) {
+					for (Product pr : produtos.values()) {
 						System.out.println(pr);
 					}
 
 					try {
 						System.out.println("O que deseja pedir? ");
-						System.out.print("Escolha o item da lista: ");
-						int index = sc.nextInt();
+					    char respPedido = 's';
+						while(respPedido == 's'){	
+						System.out.print("Escolha o NOME do produto: ");
+						sc.nextLine();
+						String nomeProd = sc.next().toLowerCase();
 
-						Product pr = list.get(index);
-						System.out.print("Quantos deseja? ");
-						int quantity = sc.nextInt();
-						System.out.println();
-
-						System.out.print("Deseja adicionar mais algum pedido? (s/n) ");
-						resp = sc.next().charAt(0);
-						System.out.println();
-
-						OrderItem item = new OrderItem(pr, quantity);
-
-						ord.addList(item);
+                        Product p = produtos.get(nomeProd);
+                        
+                        if(p != null) {
+                        	System.out.print("Digite a quantidade: ");
+                        	int qtdProd = sc.nextInt();
+                        	
+                        	OrderItem item = new OrderItem(p, qtdProd);
+                        	ord.addList(item);
+                        	System.out.println("Item adicionado com sucesso!");
+                        	System.out.println("Deseja adicionar mais algum pedido? (s/n)");
+                        	respPedido = sc.next().charAt(0);
+                            }
+                        }
 					} 
 					catch (InputMismatchException e) {
 						System.out.println("Entrada invalida!");
 					}
 
-				}
+					historico.put(proximoIdPedido, ord);
+					System.out.println("Pedido salvo com sucesso! Número: " + proximoIdPedido);
+					ord = new Order();
+					proximoIdPedido++;
 
-				System.out.println("Pedido criado");
-				System.out.println();
 			} 
 			else if (option == 4) {
-				if(ord.isEmpty()) {
-					System.out.println("Não existe pedidos feito ainda");
-					System.out.println("Por favor faça um em CRIAR PEDIDO!");
-				}
-				else {
-				System.out.println("PEDIDO:");
-				System.out.println(ord);
-				}
+                System.out.print("Digite o número do pedido: ");
+                int id = sc.nextInt();
+                
+                Order pedidoBuscado = historico.get(id);
+                
+                if(pedidoBuscado != null) {
+                	System.out.println(pedidoBuscado);
+                }
+                else {
+                	System.out.println("Pedido #" + id + "Não existe!");
+                }
+
+				
 			} 
 			else if(option == 5){
 				System.out.println("Obrigado!");
@@ -134,6 +145,7 @@ public class Program {
 
 		}
 
+		sc.close();
 	}
 
 }
