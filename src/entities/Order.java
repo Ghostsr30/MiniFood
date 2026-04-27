@@ -3,9 +3,9 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Order {
 	
+
 	List<OrderItem> list = new ArrayList<>();
 	
 	public void addList(OrderItem item) {

@@ -1,10 +1,13 @@
 package application;
 
-import java.util.HashMap;
+
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import entities.Order;
 import entities.OrderItem;
@@ -16,10 +19,12 @@ public class Program {
 
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
-
-		Map<Integer, Order> historico = new HashMap<>();
+		
+		
+        
+		Map<Integer, Order> historico = new TreeMap<>();
 		int proximoIdPedido = 1;
-        Map<String, Product> produtos = new HashMap<>();
+        Map<String, Product> produtos = new TreeMap<>();
 		Order ord = new Order();
 		int option = 0;
 		while (option != 5) {
@@ -40,13 +45,15 @@ public class Program {
 				System.out.print("Escolha uma opção: ");
 				option = sc.nextInt();
 				System.out.println();
+				
 			} 
 			catch (InputMismatchException e) {
 				System.out.println("Entrada inválida!");
 				sc.nextLine();
 			}
 
-			if (option == 1) {
+			switch(option) {
+			case 1: 
 				
 
 				int n = 0;
@@ -69,21 +76,28 @@ public class Program {
 
 						Product pr = new Product(name, price);
 						produtos.put(pr.getName().toLowerCase(), pr);
+						
+						
 					} 
 					catch (InputMismatchException e) {
 						System.out.println("Entrada inválida");
 					}
 
 				}
-			} else if (option == 2) {
+				break;
+			 case 2: 
+				List<Product> listTemp = new ArrayList<>(produtos.values());
+				
+				listTemp.sort((p1, p2) -> p1.getPrice().compareTo(p2.getPrice()));
 				System.out.println("Produtos: ");
-				for (Product pr : produtos.values()) {
+				for (Product pr : listTemp) {
 					System.out.println(pr);
 
 				}
 				System.out.println();
+				break;
 
-			} else if (option == 3) {
+			 case 3:
 
 
 					System.out.println("Produtos disponiveis: ");
@@ -121,9 +135,11 @@ public class Program {
 					System.out.println("Pedido salvo com sucesso! Número: " + proximoIdPedido);
 					ord = new Order();
 					proximoIdPedido++;
+					
+					break;
 
-			} 
-			else if (option == 4) {
+			
+			 case 4: 
                 System.out.print("Digite o número do pedido: ");
                 int id = sc.nextInt();
                 
@@ -135,15 +151,17 @@ public class Program {
                 else {
                 	System.out.println("Pedido #" + id + "Não existe!");
                 }
-
+                 break;
 				
-			} 
-			else if(option == 5){
+			
+			case 5:
 				System.out.println("Obrigado!");
 				System.out.println("Saindo do sistema...");
+			break;
 			}
 
 		}
+	
 
 		sc.close();
 	}
