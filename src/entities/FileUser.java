@@ -3,14 +3,14 @@ package entities;
 import java.time.LocalDate;
 
 
-public class FileUser{
+public class FileUser {
 
     private String nameUser;
     private LocalDate dateArq;
     private Product product;
     private Order order;
 
-    public FileUser(String nameUser, LocalDate dateArq){
+    public FileUser(String nameUser, LocalDate dateArq) {
     }
 
 
@@ -47,7 +47,7 @@ public class FileUser{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "=====================\n"
                 + "PEDIDO: \n"
                 + "Cliente: " + nameUser + "\n"
@@ -56,11 +56,4 @@ public class FileUser{
                 + order.toString() + "\n"
                 + "=====================";
     }
-
-public class FileProduct {
-
-    private String name;
-    private LocalDate data;
-    
-
 }
