@@ -2,7 +2,7 @@ package entities;
 
 import java.time.LocalDate;
 
-<<<<<<< HEAD
+
 public class FileUser{
 
     private String nameUser;
@@ -56,12 +56,11 @@ public class FileUser{
                 + order.toString() + "\n"
                 + "=====================";
     }
-=======
+
 public class FileProduct {
 
     private String name;
     private LocalDate data;
     
 
->>>>>>> aaca723 (Remove IDE files from repository)
 }
