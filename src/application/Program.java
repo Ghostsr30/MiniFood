@@ -16,10 +16,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import entities.FileUser;
-import entities.Order;
-import entities.OrderItem;
-import entities.Product;
+import entities.*;
 
 public class Program {
 
@@ -27,9 +24,10 @@ public class Program {
 
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
-		
-		
+
+
         
+
 		Map<Integer, Order> historico = new TreeMap<>();
 		int proximoIdPedido = 1;
         Map<String, Product> produtos = new TreeMap<>();
@@ -97,18 +95,12 @@ public class Program {
 				}
 				break;
 			 case 2:
-				 if(produtos.isEmpty()) {
-					 System.out.println("Nenhum produto encontrado!");
-					 break;
-				 }
-				List<Product> listTemp = new ArrayList<>(produtos.values());
-				
-				listTemp.sort((p1, p2) -> p1.getPrice().compareTo(p2.getPrice()));
-				System.out.println("Produtos: ");
-				for (Product pr : listTemp) {
-					System.out.println(pr);
+				 ProductDAO prDAO = new ProductDAO();
 
-				}
+				 System.out.println("Produtos: ");
+				 for(Product p : prDAO.findAll()){
+					 System.out.println(p);
+				 }
 				System.out.println();
 				break;
 
@@ -232,6 +224,8 @@ public class Program {
 	
 
 		sc.close();
+
+
 	}
 
 }
