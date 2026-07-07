@@ -1,19 +1,20 @@
 package entities;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
 
-    Connection conn = null;
-    Statement st = null;
-    ResultSet rs = null;
+
+
+
 
     public List<Product> findAll() {
+
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
 
         List<Product> products = new ArrayList<>();
         try {
@@ -33,11 +34,40 @@ public class ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DB.closeConnection();
+
             DB.closeStatement(st);
             DB.closeResultSet(rs);
+            DB.closeConnection();
         }
         return products;
+    }
+
+    public void addProduct(String nome, Double preco){
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try{
+            conn = DB.getConnection();
+            ps = conn.prepareStatement(
+                                         "INSERT INTO produtos"
+                                           + " (nome_produto, preco_produto)"
+                                           + " VALUES"
+                                           + " (?, ?)",
+                                             Statement.RETURN_GENERATED_KEYS);
+
+
+            ps.setString(1, nome);
+            ps.setDouble(2, preco);
+
+            ps.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            DB.closePreparedStatement(ps);
+            DB.closeConnection();
+        }
     }
 }
 

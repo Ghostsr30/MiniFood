@@ -26,13 +26,12 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 
 
-        
-
+		ProductDAO prDAO = new ProductDAO();
 		Map<Integer, Order> historico = new TreeMap<>();
 		int proximoIdPedido = 1;
         Map<String, Product> produtos = new TreeMap<>();
 		Order ord = new Order();
-		Map<Integer, FileUser> historicoUsers = new TreeMap<>();
+
 
 		int option = 0;
 		while (option != 6) {
@@ -83,10 +82,8 @@ public class Program {
 						System.out.print("Preco do produto: ");
 						double price = sc.nextDouble();
 
-						Product pr = new Product(name, price);
-						produtos.put(pr.getName().toLowerCase(), pr);
-						
-						
+						prDAO.addProduct(name, price);
+
 					} 
 					catch (InputMismatchException e) {
 						System.out.println("Entrada inválida");
@@ -95,7 +92,7 @@ public class Program {
 				}
 				break;
 			 case 2:
-				 ProductDAO prDAO = new ProductDAO();
+
 
 				 System.out.println("Produtos: ");
 				 for(Product p : prDAO.findAll()){
