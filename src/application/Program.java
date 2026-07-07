@@ -31,7 +31,7 @@ public class Program {
 		int proximoIdPedido = 1;
         Map<String, Product> produtos = new TreeMap<>();
 		Order ord = new Order();
-
+		Map<Integer, FileUser> historicoUsers = new TreeMap<>();
 
 		int option = 0;
 		while (option != 6) {
