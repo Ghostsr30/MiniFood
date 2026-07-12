@@ -26,6 +26,8 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 
 
+		User user = new User();
+		UsuarioDAO userDAO = new UsuarioDAO();
 		ProductDAO prDAO = new ProductDAO();
 		Map<Integer, Order> historico = new TreeMap<>();
 
@@ -38,18 +40,21 @@ public class Program {
 		Order ord = new Order();
 		Map<Integer, FileUser> historicoUsers = new TreeMap<>();
 
+		User usuarioLogado = null;
+
 		int option = 0;
 		while (option != 6) {
 
 			System.out.println("------------------------------------------");
 			System.out.println("Menu:");
 			System.out.println();
-			System.out.println("1) Cadastrar Produto");
-			System.out.println("2) Listar Produtos");
-			System.out.println("3) Criar Pedido");
-			System.out.println("4) Ver Pedido");
-			System.out.println("5) Criar arquivo do pedido");
-			System.out.println("6) Sair");
+			System.out.println("1) Login / Cadastrar: ");
+			System.out.println("2) Cadastrar Produto");
+			System.out.println("3) Listar Produtos");
+			System.out.println("4) Criar Pedido");
+			System.out.println("5) Ver Pedido");
+			System.out.println("6) Criar arquivo do pedido");
+			System.out.println("7) Sair");
 			System.out.println("------------------------------------------");
 
 			try {
@@ -66,7 +71,47 @@ public class Program {
 			}
 
 			switch(option) {
-			case 1: 
+				case 1:
+
+					System.out.println("BEM VINDO!");
+					System.out.println("Voce deseja fazer login ou cadastro?");
+					sc.nextLine();
+					String respLogin = sc.nextLine().toLowerCase();
+					if (respLogin.equals("cadastro")){
+
+						System.out.println("Insira seu nome: ");
+						String nomeUsuario = sc.nextLine();
+						System.out.println("Insira seu email: ");
+						String gmailUsuario = sc.nextLine();
+						System.out.println("Insira sua senha: ");
+						String senhaUsuario = sc.nextLine();
+
+						userDAO.addUsuario(nomeUsuario, gmailUsuario, senhaUsuario);
+
+						System.out.println("CADASTRO EFETUADO COM SUCESSO!");
+					}
+					else if (respLogin.equals("login")) {
+						System.out.println("Insira seu login");
+						System.out.println();
+						System.out.println("Insira seu email: ");
+						String emailLogin = sc.nextLine();
+						System.out.println("Insira sua senha: ");
+						String senhaLogin = sc.nextLine();
+
+						usuarioLogado = userDAO.loginUsuario(emailLogin, senhaLogin);
+
+						if(usuarioLogado != null){
+							System.out.println("Olá " + usuarioLogado.getNome_usuario() + " o seu login foi realizado!");
+						}
+						else {
+							System.out.println("Login inválido, faça o cadastro ou tente novamente!");
+						}
+
+
+					}
+
+					break;
+			case 2:
 				
 
 				int n = 0;
@@ -96,7 +141,7 @@ public class Program {
 
 				}
 				break;
-			 case 2:
+			 case 3:
 
 
 				 System.out.println("Produtos: ");
@@ -106,7 +151,7 @@ public class Program {
 				System.out.println();
 				break;
 
-			 case 3:
+			 case 4:
 
 
 					 System.out.println("Produtos disponiveis: ");
@@ -159,7 +204,7 @@ public class Program {
 				 break;
 
 			
-			 case 4: 
+			 case 5:
                 System.out.print("Digite o número do pedido: ");
                 int id = sc.nextInt();
                 
@@ -174,7 +219,7 @@ public class Program {
                 	System.out.println("Pedido #" + id + "Não existe!");
                 }
                  break;
-			case 5:
+			case 6:
 
 				System.out.println("Qual diretório deseja salvar? ");
 				sc.nextLine();
@@ -208,7 +253,7 @@ public class Program {
 
 				break;
 
-			case 6:
+			case 7:
 				System.out.println("Obrigado!");
 				System.out.println("Saindo do sistema...");
 			break;
