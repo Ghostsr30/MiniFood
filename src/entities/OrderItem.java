@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.List;
+
 public class OrderItem {
 
 	private Product product;
@@ -14,7 +16,7 @@ public class OrderItem {
 		
 	}
 
-	public Product getProduct() {
+	public Product getProduct(){
 		return product;
 	}
 
@@ -42,4 +44,6 @@ public class OrderItem {
 				+ " - Subtotal: "
 				+ String.format("%.2f", subTotal());
 	}
+
+
 }

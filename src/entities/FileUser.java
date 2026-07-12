@@ -10,12 +10,11 @@ public class FileUser {
     private Product product;
     private Order order;
 
-    public FileUser(String nameUser, LocalDate dateArq) {
+    public FileUser( LocalDate dateArq) {
     }
 
 
-    public FileUser(String nameUser, LocalDate dateArq, Order order) {
-        this.nameUser = nameUser;
+    public FileUser(LocalDate dateArq, Order order) {
         this.dateArq = dateArq;
         this.order = order;
     }
@@ -29,15 +28,6 @@ public class FileUser {
         this.dateArq = dateArq;
     }
 
-    public String getNameUser() {
-        return nameUser;
-    }
-
-    public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
-    }
-
-
     public Order getOrder() {
         return order;
     }
@@ -50,7 +40,6 @@ public class FileUser {
     public String toString() {
         return "=====================\n"
                 + "PEDIDO: \n"
-                + "Cliente: " + nameUser + "\n"
                 + "Data: " + dateArq + "\n"
                 + "---------------------\n"
                 + order.toString() + "\n"

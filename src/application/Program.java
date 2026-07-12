@@ -28,10 +28,15 @@ public class Program {
 
 		ProductDAO prDAO = new ProductDAO();
 		Map<Integer, Order> historico = new TreeMap<>();
+
 		int proximoIdPedido = 1;
         Map<String, Product> produtos = new TreeMap<>();
+		for(Product pr : prDAO.findAll()){
+			produtos.put(pr.getName().toLowerCase(), pr);
+		}
+		System.out.println(produtos.keySet());
 		Order ord = new Order();
-
+		Map<Integer, FileUser> historicoUsers = new TreeMap<>();
 
 		int option = 0;
 		while (option != 6) {
@@ -104,20 +109,11 @@ public class Program {
 			 case 3:
 
 
-				 if(produtos.isEmpty()) {
-					 System.out.println("Nenhum produto encontrado!");
-					 break;
-				 }
-
-
 					 System.out.println("Produtos disponiveis: ");
-					 for (Product pr : produtos.values()) {
+					 for (Product pr : prDAO.findAll()) {
 						 System.out.println(pr);
 					 }
 					 try {
-						 System.out.println("Qual o seu nome? ");
-						 sc.nextLine();
-						 String nameUser = sc.nextLine();
 						 System.out.println("Insira a data de hoje no formato: (dd/MM/yyyy)");
 						 LocalDate dateArq = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
@@ -144,9 +140,11 @@ public class Program {
 						 }
 
 
-						 FileUser fu = new FileUser(nameUser, dateArq, ord);
-						 historico.put(proximoIdPedido, ord);
-						 historicoUsers.put(proximoIdPedido, fu);
+						 int idUsuarioLogado = 1;
+						 int idPedidoGerado = prDAO.addOrder(dateArq, ord.total(), idUsuarioLogado);
+						 for(OrderItem item : ord.getItens()){
+							 prDAO.orderProducts(idPedidoGerado,item.getProduct().getId(), item.getQuantity());
+						 }
 
 
 

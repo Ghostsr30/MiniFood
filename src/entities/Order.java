@@ -35,4 +35,8 @@ public class Order {
 	public boolean isEmpty() {
 		return list.isEmpty();
 	}
+
+	public List<OrderItem> getItens(){
+		return list;
+	}
 }
